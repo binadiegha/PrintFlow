@@ -12,7 +12,7 @@ namespace DzinerProgram.Services
             {
                 Directory.CreateDirectory(outputFolder);
             }
-            string fileName = Path.Combine(outputFolder, $"{data.Date}_{data.Product}.zpl");
+            string fileName = Path.Combine(outputFolder, $"{data.Date.Replace('/', '.')}_{data.Product}.zpl");
             File.WriteAllText(fileName, zpl);
 
             Console.WriteLine($"ZPL saved to: {fileName}");

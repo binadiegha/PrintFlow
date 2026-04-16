@@ -25,7 +25,9 @@ namespace DzinerProgram.Services
             // Save ZPL to local storage
             string filePath = _storageService.SaveZpl(zpl, data);
             // Print the label
-            _printerService.PrintJob("Printerbane", zpl, data); // Option to change and use network  printing later.
+            _printerService.PrintJob("ZDesigner ZT421-203dpi ZPL", filePath, data); // Option to change and use network  printing later.
+
+
         }
     }
 }

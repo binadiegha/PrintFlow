@@ -1,0 +1,13 @@
+{
+  "printerName": "Brother QL-820NWB",
+  "labelType": "62mm",
+  "labelWidth": 62,
+  "labelHeight": 100,
+  "labelMargin": 0,
+  "labelPadding": 0,
+  "labelDPI": 300,
+  "printApiUrl": "https://localhost:7236/Print/print",
+  "serverPort": 5236,
+  "serverUril": "http://localhost:5236",
+  "outputFolder": "C:/PrintFlo/Output"
+}

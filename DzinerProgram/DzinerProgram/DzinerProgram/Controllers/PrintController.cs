@@ -18,6 +18,8 @@ namespace DzinerProgram.Controllers
         [HttpPost("print")]
         public IActionResult PrintLabel([FromBody] LabelData data)
         {
+
+            Console.WriteLine(data.Origin);
             try
             {
                 _labelService.ProcessLabel(data);
@@ -27,6 +29,12 @@ namespace DzinerProgram.Controllers
             {
                 return StatusCode(500, $"Error printing label: {ex.Message}");
             }
+        }
+
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok("API is working");
         }
     }
 }

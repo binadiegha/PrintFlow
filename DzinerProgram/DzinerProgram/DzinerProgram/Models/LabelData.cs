@@ -4,10 +4,11 @@ namespace DzinerProgram.Models
 {
     public class LabelData
     {
+        //public Option Option { get; set; }
         public string Date { get; set; }
         public string TimeIn { get; set; }
 
-        public string ContainerNumber { get; set; }
+        public string ContainerNo { get; set; }
         public string Product { get; set; }
 
         public string Supplier { get; set; }
@@ -16,7 +17,7 @@ namespace DzinerProgram.Models
 
         public string Origin { get; set; }
         public string Batch { get; set; }
-        public string NoOfPallets { get; set; }
+        public string NoOfPal { get; set; }
         public string TotalQty { get; set; }
         public string Status { get; set; }
         public string StorageLoc    { get; set; }

@@ -1,27 +1,11 @@
 /// <reference types="office-js" />
 
 import { excelDateToJSDate, excelTimeToString } from "../utils/helpers";
-
-/* global Excel console */
-
-// export async function insertText(text: string ) {
-//   // Write text to the top left cell.
-//   try {
-//     await Excel.run(async (context) => {
-//       const sheet = context.workbook.worksheets.getActiveWorksheet();
-//       const range = sheet.getRange("A5");
-//       range.values = [[text]];
-//       range.format.autofitColumns();
-//       await context.sync();
-//     });
-//   } catch (error) {
-//     console.log("Error: " + error);
-//   }
-// }
+import { LabelData } from "./interfaces";
 
 // Get Active row
-export async function getRowWithHeaders() {
-  await Excel.run(async (context) => {
+export async function getRowWithHeaders(): Promise<Partial<LabelData>> {
+  const r = await Excel.run(async (context) => {
     const sheet = context.workbook.worksheets.getActiveWorksheet();
 
     const selectedRange = context.workbook.getSelectedRange();
@@ -62,20 +46,35 @@ export async function getRowWithHeaders() {
       if (header && row[index] !== null && row[index] !== "") {
         // handle date conversions
         if (header.toLowerCase() == "date") {
-          result[header] = excelDateToJSDate(row[index]);
+          const h = header.replace(/\s/g, "");
+          result[h] = excelDateToJSDate(row[index]);
         }
         // handle time conversioins
         else if (header.toLowerCase() == "time in") {
-          result[header] = excelTimeToString(row[index]);
+          const h = header.replace(/\s/g, "");
+          result[h] = excelTimeToString(row[index]);
+        } else if (header.toLowerCase() == "container/truck no") {
+          const h = header.replace("/Truck", "").replace(/\s/g, "");
+          result[h] = row[index];
+        } else if (header.toLowerCase() == "no of pal/bag(s)") {
+          const h = header.replace(/\/Bag\(s\)/i, "").replace(/\s/g, "");
+          result[h] = row[index].toString();
         } else {
-          result[header] = row[index];
+          const h = header.replace(/\s/g, "");
+          result[h] = row[index].toString();
         }
       }
     });
 
+    if (Object.keys(result).length === 0) {
+      throw new Error("Selected row is empty.");
+    }
+
     console.log(result);
-    return result;
+    return result as Partial<LabelData>;
   });
+
+  return r;
 }
 
 export async function saveData() {

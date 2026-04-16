@@ -13,8 +13,4 @@
     <PackageReference Include="RawPrint.NetStd" Version="1.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Templates\" />
-  </ItemGroup>
-
 </Project>

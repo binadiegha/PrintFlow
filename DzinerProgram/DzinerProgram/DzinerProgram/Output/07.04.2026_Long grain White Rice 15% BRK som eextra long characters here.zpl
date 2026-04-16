@@ -1,4 +1,4 @@
-﻿CT~~CD,~CC^~CT~
+CT~~CD,~CC^~CT~
 ^XA
 ~TA000
 ~JSN
@@ -24,18 +24,18 @@
 
 ^FX --- TEXT FIELDS --- ^FS
 ^CF0,67,66
-^FO20,322^FDDelivery Date: {Date}^FS
+^FO20,322^FDDelivery Date: 07/04/2026^FS
 
 ^FX --- DESCRIPTION BLOCK (Wrapped) --- ^FS
 ^FO20,443^FB1120,5,30,L,0
-^FDDescription: {Product}^FS
+^FDDescription: Long grain White Rice 15% BRK som eextra long characters here^FS
 
 ^FX --- LOWER FIELDS --- ^FS
-^FO20,750^FDSupplier: {Supplier}^FS
-^FO20,1001^FDPO Number: {PO}^FS
-^FO20,1208^FDBatch Code: {Batch}^FS
-^FO20,1367^FDOrigin: {Origin}^FS
-^FO20,1520^FDContainer No: {ContainerNumber}^FS
+^FO20,750^FDSupplier: LT foods Netherlands^FS
+^FO20,1001^FDPO Number: 940000568^FS
+^FO20,1208^FDBatch Code: CTEURY38783^FS
+^FO20,1367^FDOrigin: India^FS
+^FO20,1520^FDContainer No: GB2-437RH^FS
 
 ^PQ{PrintQty},0,1,Y
 ^XZ

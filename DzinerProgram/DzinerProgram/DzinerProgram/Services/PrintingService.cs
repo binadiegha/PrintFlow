@@ -15,10 +15,21 @@ namespace DzinerProgram.Services
           zplPath = _zplData;
           labelData = _LabelData;
 
-            Console.WriteLine(printerName);
+          
+            try
+            {
+                Console.WriteLine("PATH: " + zplPath);
+                IPrinter printer = new Printer();
 
-            IPrinter printer = new Printer();
-            printer.PrintRawFile(printerName, zplPath, labelData.Product, false);
+               
+                printer.PrintRawFile(printerName, zplPath, labelData.Product, false);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error printing: {ex.Message}");
+                //throw new Exception($"Error printing: {ex.Message}");
+
+            }
         }
         
     }

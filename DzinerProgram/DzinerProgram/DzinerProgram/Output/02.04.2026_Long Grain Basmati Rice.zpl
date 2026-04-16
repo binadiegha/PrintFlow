@@ -1,4 +1,4 @@
-﻿CT~~CD,~CC^~CT~
+CT~~CD,~CC^~CT~
 ^XA
 ~TA000
 ~JSN
@@ -24,18 +24,18 @@
 
 ^FX --- TEXT FIELDS --- ^FS
 ^CF0,67,66
-^FO20,322^FDDelivery Date: {Date}^FS
+^FO20,322^FDDelivery Date: 02/04/2026^FS
 
 ^FX --- DESCRIPTION BLOCK (Wrapped) --- ^FS
 ^FO20,443^FB1120,5,30,L,0
-^FDDescription: {Product}^FS
+^FDDescription: Long Grain Basmati Rice^FS
 
 ^FX --- LOWER FIELDS --- ^FS
-^FO20,750^FDSupplier: {Supplier}^FS
-^FO20,1001^FDPO Number: {PO}^FS
-^FO20,1208^FDBatch Code: {Batch}^FS
-^FO20,1367^FDOrigin: {Origin}^FS
-^FO20,1520^FDContainer No: {ContainerNumber}^FS
+^FO20,750^FDSupplier: hello world^FS
+^FO20,1001^FDPO Number: 940000568^FS
+^FO20,1208^FDBatch Code: CT7638974398^FS
+^FO20,1367^FDOrigin: Netherlands^FS
+^FO20,1520^FDContainer No: AV23-CXB/BCH01^FS
 
 ^PQ{PrintQty},0,1,Y
 ^XZ
