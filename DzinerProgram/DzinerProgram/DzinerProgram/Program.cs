@@ -18,7 +18,7 @@ namespace DzinerProgram
 
             var serviceTypes = Assembly.GetExecutingAssembly()
                 .GetTypes()
-                .Where( t => t.Namespace == "DzinerProgram.Services" && t.IsClass);
+                .Where(t => t.Namespace == "DzinerProgram.Services" && t.IsClass && !t.IsAbstract);
 
             foreach( var type in serviceTypes)
             {
@@ -40,7 +40,7 @@ namespace DzinerProgram
             }
             );
 
-            var app = builder.Build();
+            WebApplication app = builder.Build();
 
             // Configure the HTTP request pipeline.
            
