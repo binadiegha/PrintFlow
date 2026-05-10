@@ -1,12 +1,12 @@
 import * as React from "react";
 import { tokens, makeStyles, Dropdown, Option, useId } from "@fluentui/react-components";
-import { ChoiceGroup, IChoiceGroupOption } from "@fluentui/react/lib/ChoiceGroup";
-import TextInsertion from "./TextInsertion";
+import type { OptionOnSelectData, SelectionEvents } from "@fluentui/react-components";
+import MainPage from "./MainPage";
+import SettingsDialog from "./SettingsDialog";
 import { getRowWithHeaders, saveData } from "../taskpane";
-import { ELabelTypeDisplayNames, ELabelTypes, IData } from "../interfaces";
-import type { DropdownProps } from "@fluentui/react-components";
+import { ELabelTypeDisplayNames, ELabelTypes, IData, ISettings } from "../interfaces";
 
-const options: IChoiceGroupOption[] = [
+const options = [
   { key: ELabelTypes.CleaningPlant, text: ELabelTypeDisplayNames.CleaningPlant },
   { key: ELabelTypes.Feed, text: ELabelTypeDisplayNames.Feed },
   { key: ELabelTypes.FGRework, text: ELabelTypeDisplayNames.FGRework },
@@ -14,11 +14,6 @@ const options: IChoiceGroupOption[] = [
   { key: ELabelTypes.TradedGoods, text: ELabelTypeDisplayNames.TradedGoods },
   { key: ELabelTypes.XL20kgLabel, text: ELabelTypeDisplayNames.XL20kgLabel },
 ];
-
-export interface HeroListItem {
-  icon: React.JSX.Element;
-  primaryText: string;
-}
 
 const useStyles = makeStyles({
   details__main: {
@@ -42,25 +37,23 @@ const useStyles = makeStyles({
   },
 });
 
-const PrinterActions: React.FC = (props: Partial<DropdownProps>) => {
-  const [selectedKey, setSelectedKey] = React.useState<string | undefined>("B");
+const PrinterActions: React.FC = () => {
   const [data, setData] = React.useState<Partial<IData>>({});
+  const [settings, setSettings] = React.useState<ISettings>({
+    printerName: "",
+    zplSavePath: "",
+    pdfSavePath: "",
+  });
   const styles = useStyles();
 
   const label_type_dropDownId = useId("label-type-dropdown");
 
-  const handleChange: (typeof props)["onOptionSelect"] = React.useCallback(
-    (_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, option?: any) => {
-      if (option) {
-        setSelectedKey(option.key);
-        setData((prevData) => ({
-          ...prevData,
-          label_type: option.optionValue,
-        }));
-      }
-    },
-    []
-  );
+  const handleChange = React.useCallback((_ev: SelectionEvents, option: OptionOnSelectData) => {
+    setData((prevData) => ({
+      ...prevData,
+      label_type: option.optionValue,
+    }));
+  }, []);
 
   return (
     <form>
@@ -73,8 +66,7 @@ const PrinterActions: React.FC = (props: Partial<DropdownProps>) => {
           </label>
           <Dropdown
             id={label_type_dropDownId}
-            placeholder={"select_label_type"}
-            defaultValue={"Select Label Type"}
+            placeholder="Select Label Type"
             className={styles.cp_for}
             onOptionSelect={handleChange}
           >
@@ -85,10 +77,15 @@ const PrinterActions: React.FC = (props: Partial<DropdownProps>) => {
             ))}
           </Dropdown>
         </div>
-        {/* <ChoiceGroup selectedKey={selectedKey} options={options} onChange={onChange} /> */}
 
-        {/* print action */}
-        <TextInsertion printAction={getRowWithHeaders} saveAction={saveData} data={data} />
+        <MainPage
+          printAction={getRowWithHeaders}
+          saveAction={saveData}
+          data={data}
+          settings={settings}
+        />
+
+        <SettingsDialog onSettingsChange={setSettings} />
       </div>
     </form>
   );

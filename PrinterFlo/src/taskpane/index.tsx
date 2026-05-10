@@ -5,6 +5,9 @@ import { FluentProvider, webLightTheme } from "@fluentui/react-components";
 
 /* global document, Office, module, require, HTMLElement */
 
+declare const module: any;
+declare const require: any;
+
 const title = "Contoso Task Pane Add-in";
 
 const rootElement: HTMLElement | null = document.getElementById("container");

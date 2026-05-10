@@ -6,11 +6,9 @@ import {
   useId,
   makeStyles,
   tokens,
-  useAnnounce,
   Field,
 } from "@fluentui/react-components";
-import type { JSXElement } from "@fluentui/react-components";
-import { addDays } from "@fluentui/react";
+import type { OptionOnSelectData, SelectionEvents } from "@fluentui/react-components";
 import { DatePicker } from "@fluentui/react";
 import { ECPProcessTypes } from "../interfaces";
 
@@ -40,19 +38,27 @@ const onFormatDate = (date?: Date): string => {
   return !date ? "" : date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 };
 
-const CPProcess = () => {
+interface ICPProcess {
+  handleCPProcess: (params: { date?: string; process?: ECPProcessTypes }) => void;
+}
+
+const CPProcess = (props: ICPProcess) => {
   const styles = useStyles();
-  const { announce } = useAnnounce();
 
-  const [selectedDate, setSelectedDate] = React.useState<Date | null | undefined>(undefined);
-
-  // INFO: CP process options
   const cp_dropDownId = useId("cp-dropdown");
   const cp_process_options = [
     { key: ECPProcessTypes.Guill.toLowerCase(), text: ECPProcessTypes.Guill },
     { key: ECPProcessTypes.Rovenna.toLowerCase(), text: ECPProcessTypes.Rovenna },
     { key: ECPProcessTypes.Nichrome.toLowerCase(), text: ECPProcessTypes.Nichrome },
   ];
+
+  const handleProcessType = (_e: SelectionEvents, val: OptionOnSelectData) => {
+    props.handleCPProcess({ process: val.optionText as ECPProcessTypes });
+  };
+
+  const handleSelectDate = (value: Date | null | undefined) => {
+    props.handleCPProcess({ date: onFormatDate(value!) });
+  };
 
   return (
     <>
@@ -63,6 +69,7 @@ const CPProcess = () => {
           placeholder="Select Line"
           defaultValue={cp_process_options[0].text}
           className={styles.cp_for}
+          onOptionSelect={(e, val) => handleProcessType(e, val)}
         >
           {cp_process_options.map((option) => (
             <Option key={option.key} value={option.text.toLowerCase()}>
@@ -75,13 +82,12 @@ const CPProcess = () => {
       <AriaLiveAnnouncer>
         <Field label="Select CP Process date" className={styles.field}>
           <DatePicker
-            aria-value={selectedDate}
             placeholder="Select a date"
-            onSelectDate={setSelectedDate}
+            onSelectDate={handleSelectDate}
             aria-placeholder="CP process Date"
             formatDate={onFormatDate}
             className={styles.dp}
-            styles={{ root: { Width: "100%" } }}
+            styles={{ root: { width: "100%" } }}
           />
         </Field>
       </AriaLiveAnnouncer>

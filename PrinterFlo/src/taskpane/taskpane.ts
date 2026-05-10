@@ -70,7 +70,7 @@ export async function getRowWithHeaders(): Promise<Partial<LabelData>> {
       throw new Error("Selected row is empty.");
     }
 
-    console.log(result);
+      console.log(result);
     return result as Partial<LabelData>;
   });
 

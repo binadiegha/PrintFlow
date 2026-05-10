@@ -1,18 +1,13 @@
 import React from "react";
 import {
   AriaLiveAnnouncer,
-  Dropdown,
-  Option,
   useId,
   makeStyles,
   tokens,
-  useAnnounce,
   Field,
 } from "@fluentui/react-components";
-import type { InputOnChangeData, JSXElement } from "@fluentui/react-components";
-import { addDays } from "@fluentui/react";
+import type { InputOnChangeData } from "@fluentui/react-components";
 import { DatePicker } from "@fluentui/react";
-import { ECPProcessTypes, LabelData } from "../interfaces";
 import TextInput from "./TextInput";
 import { HandleBagNumber } from "../../utils/helpers";
 
@@ -42,34 +37,32 @@ const onFormatDate = (date?: Date): string => {
   return !date ? "" : date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 };
 
-const Feed = () => {
-  const styles = useStyles();
-  const { announce } = useAnnounce();
+interface IFeedProps {
+  handleFeedData: (data: { bagNumbers?: number[]; productionDate?: string }) => void;
+}
 
-  const [selectedDate, setSelectedDate] = React.useState<Date | null | undefined>(undefined);
-  const [bagNumber, setBagNumber] = React.useState<number[]>([]);
+const Feed = (props: IFeedProps) => {
+  const styles = useStyles();
   const [bagNumberValue, setBagNumberValue] = React.useState<string>("");
 
   const handleBagNumberChange = (
     _ev: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
   ) => {
-    // TODO: validate bag number input if necessary
-    const value = data?.value ?? "";
-    let bagNumbers: string[] = [];
-
-    setBagNumberValue(data?.value);
+    setBagNumberValue(data?.value ?? "");
   };
 
-  //   handle blur action
   const handleBagNumberBlur = () => {
     try {
       const bagNumbers = HandleBagNumber(bagNumberValue);
-      setBagNumber(bagNumbers as number[]);
+      props.handleFeedData({ bagNumbers: bagNumbers as number[] });
     } catch (error) {}
   };
 
-  console.log({ bagNumber });
+  const handleSelectDate = (value: Date | null | undefined) => {
+    props.handleFeedData({ productionDate: onFormatDate(value!) });
+  };
+
   return (
     <>
       <TextInput
@@ -83,13 +76,12 @@ const Feed = () => {
       <AriaLiveAnnouncer>
         <Field label="Production date" className={styles.field}>
           <DatePicker
-            aria-value={selectedDate}
             placeholder="Select a date"
-            onSelectDate={setSelectedDate}
-            aria-placeholder="CP process Date"
+            onSelectDate={handleSelectDate}
+            aria-placeholder="Production Date"
             formatDate={onFormatDate}
             className={styles.dp}
-            styles={{ root: { Width: "100%" } }}
+            styles={{ root: { width: "100%" } }}
           />
         </Field>
       </AriaLiveAnnouncer>

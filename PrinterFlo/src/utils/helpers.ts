@@ -19,7 +19,7 @@ export function excelTimeToString(value: number) {
 
 export async function sendForPrint(labelData: Partial<LabelData>) {
   try {
-    console.log("Token: ", JSON.stringify(labelData));
+    console.log({labelData});
     const req = await fetch("https://localhost:7236/Print/print", {
       method: "POST",
       headers: {

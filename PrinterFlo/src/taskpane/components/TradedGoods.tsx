@@ -1,18 +1,11 @@
 import React from "react";
 import {
   AriaLiveAnnouncer,
-  Dropdown,
-  Option,
-  useId,
   makeStyles,
   tokens,
-  useAnnounce,
   Field,
 } from "@fluentui/react-components";
-import type { JSXElement } from "@fluentui/react-components";
-import { addDays } from "@fluentui/react";
 import { DatePicker } from "@fluentui/react";
-import { ECPProcessTypes } from "../interfaces";
 
 const useStyles = makeStyles({
   cp_for: {
@@ -40,32 +33,28 @@ const onFormatDate = (date?: Date): string => {
   return !date ? "" : date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 };
 
-const TradedGoods = () => {
+interface ITradedGoodsProps {
+  handleTradedGoodsData: (data: { bestBeforeDate?: string }) => void;
+}
+
+const TradedGoods = (props: ITradedGoodsProps) => {
   const styles = useStyles();
-  const { announce } = useAnnounce();
 
-  const [selectedDate, setSelectedDate] = React.useState<Date | null | undefined>(undefined);
-
-  // INFO: CP process options
-  const traded_goods_dropDownId = useId("traded-goods-dropdown");
-  const traded_goods_options = [
-    { key: ECPProcessTypes.Guill.toLowerCase(), text: ECPProcessTypes.Guill },
-    { key: ECPProcessTypes.Rovenna.toLowerCase(), text: ECPProcessTypes.Rovenna },
-    { key: ECPProcessTypes.Nichrome.toLowerCase(), text: ECPProcessTypes.Nichrome },
-  ];
+  const handleSelectDate = (value: Date | null | undefined) => {
+    props.handleTradedGoodsData({ bestBeforeDate: onFormatDate(value!) });
+  };
 
   return (
     <>
       <AriaLiveAnnouncer>
         <Field label="Select Best Before date" className={styles.field}>
           <DatePicker
-            aria-value={selectedDate}
             placeholder="Select a date"
-            onSelectDate={setSelectedDate}
+            onSelectDate={handleSelectDate}
             aria-placeholder="Best Before Date"
             formatDate={onFormatDate}
             className={styles.dp}
-            styles={{ root: { Width: "100%" } }}
+            styles={{ root: { width: "100%" } }}
           />
         </Field>
       </AriaLiveAnnouncer>
